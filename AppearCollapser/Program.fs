@@ -3,7 +3,7 @@
 [<EntryPoint>]
 let main args =
     args
-    |> Parameter.createFromArguments
+    |> Parameters.createFromArguments
     |> Collapser.collapse
     |> Printer.print
     0

@@ -6,7 +6,7 @@ open AppearCollapser.Database
 open FSharp.Collections.ParallelSeq
 open Microsoft.FSharp.Collections
 open Microsoft.FSharp.Core
-open AppearCollapser.Parameter
+open AppearCollapser.Parameters
 
 let private appearIdentRegex = Regex (@"""appearIdent"": ""(\w+)""", RegexOptions.Compiled)
 let private modifier (db:database) table appear rows =

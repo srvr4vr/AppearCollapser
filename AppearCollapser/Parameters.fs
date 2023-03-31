@@ -1,4 +1,4 @@
-module AppearCollapser.Parameter
+module AppearCollapser.Parameters
 
 open System
 open Microsoft.FSharp.Core
