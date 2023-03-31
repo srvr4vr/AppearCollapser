@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AppearCollapser", "AppearCollapser\AppearCollapser.fsproj", "{8EC1F69B-0263-46D7-A4EC-5F3E758B02FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EC1F69B-0263-46D7-A4EC-5F3E758B02FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC1F69B-0263-46D7-A4EC-5F3E758B02FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC1F69B-0263-46D7-A4EC-5F3E758B02FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC1F69B-0263-46D7-A4EC-5F3E758B02FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDF38E9-FB5A-4159-8A93-58B6DB7D73F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDF38E9-FB5A-4159-8A93-58B6DB7D73F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDF38E9-FB5A-4159-8A93-58B6DB7D73F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDF38E9-FB5A-4159-8A93-58B6DB7D73F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>default</LangVersion>
+        <RootNamespace>AppearCollapser</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Infrastructure\Command.fs" />
+        <Compile Include="Infrastructure\Git.fs" />
+        <Compile Include="Infrastructure\Arguments.fs" />
+        <Compile Include="Parameters.fs" />
+        <Compile Include="Database.fs" />
+        <Compile Include="Collapser.fs" />
+        <Compile Include="Printer.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Argu" Version="6.1.1" />
+      <PackageReference Include="Fli" Version="1.0.0" />
+      <PackageReference Include="FSharp.Collections.ParallelSeq" Version="1.2.0" />
+      <PackageReference Include="FSharp.Json" Version="0.4.1" />
+    </ItemGroup>
+
+</Project>
