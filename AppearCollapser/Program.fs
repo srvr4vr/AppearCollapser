@@ -1,4 +1,5 @@
 ﻿open AppearCollapser
+open AppearCollapser.Database
 
 [<EntryPoint>]
 let main args =

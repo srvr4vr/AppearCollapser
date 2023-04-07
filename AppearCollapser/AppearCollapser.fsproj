@@ -11,8 +11,13 @@
         <Compile Include="Infrastructure\Command.fs" />
         <Compile Include="Infrastructure\Git.fs" />
         <Compile Include="Infrastructure\Arguments.fs" />
+        <Compile Include="Database\JsonHelper.fs" />
+        <Compile Include="Database\Appear.fs" />
+        <Compile Include="Database\Table.fs" />
+        <Compile Include="Database\Loader.fs" />
+        <Compile Include="Database\Balance.fs" />
+        <Compile Include="Database\Database.fs" />
         <Compile Include="Parameters.fs" />
-        <Compile Include="Database.fs" />
         <Compile Include="Collapser.fs" />
         <Compile Include="Printer.fs" />
         <Compile Include="Program.fs" />

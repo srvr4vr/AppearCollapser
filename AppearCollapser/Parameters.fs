@@ -7,7 +7,6 @@ open System.Globalization
 open Argu
 open AppearCollapser.Infrastructure
 
-
 type Parameters =
     {
         directory: string
@@ -16,15 +15,18 @@ type Parameters =
         startAppear: string option
         limit: int option 
     }
-    
+
 let private toParams (arguments:ParseResults<Arguments>) =
+    let parseDate ds =
+        DateTime.ParseExact (ds, "dd.MM.yyyy", CultureInfo.CurrentCulture)
+    
     let date =
         arguments.TryGetResult End_Date
-        |> Option.fold (fun _ d -> DateTime.ParseExact(d, "dd.MM.yyyy", CultureInfo.CurrentCulture)) DateTime.Now
+        |> Option.fold (fun _ -> parseDate) DateTime.Now
     
     let git =
         arguments.TryGetResult Git
-        |> Option.fold (fun _ v -> Some (Task v)) None
+        |> Option.fold (fun _ -> Task >> Some) None
         
     let directory =
         arguments.TryGetResult Lib_Directory

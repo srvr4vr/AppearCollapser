@@ -1,5 +1,6 @@
 module AppearCollapser.Command
 
+open System
 open System.Diagnostics
 open System.Threading.Tasks
 
@@ -39,4 +40,7 @@ let executeCommand executable dir args  =
   }
 
 let executeShellCommand dir command  =
-  executeCommand "/usr/bin/env" dir [ "-S"; "bash"; "-c"; command ] 
+  if Environment.OSVersion.Platform = PlatformID.Win32NT then
+    executeCommand "cmd.exe" dir [ command ] 
+  else
+    executeCommand "/usr/bin/env" dir [ "-S"; "bash"; "-c"; command ] 
