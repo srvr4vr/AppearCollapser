@@ -1,13 +1,10 @@
 module AppearCollapser.Collapser
 
 open System.Diagnostics
-open System.Text.RegularExpressions
 open AppearCollapser.Database
 open Microsoft.FSharp.Collections
 open Microsoft.FSharp.Core
 open AppearCollapser.Parameters
-   
-let private appearIdentRegex = Regex (@"(""appearIdent"": "")(\w+)("")", RegexOptions.Compiled)
 
 let private proceedAppear (db:Database) appear =
     let mapper =
@@ -18,7 +15,7 @@ let private proceedAppear (db:Database) appear =
 
     let modifier (db:Database) table appear rows =
         let replaceIdent appear row =
-            { row with data = appearIdentRegex.Replace(row.data, $@"$1{appear.ident}$3" ); appear = appear }
+            { row with data = JsonHelper.replaceAppear appear.ident row.data; appear = appear }
             
         let sortedPast =
             rows
@@ -45,7 +42,7 @@ let private getAppears startAppearIdent date =
     >> Seq.filter (fun x -> x.ident <> Appear.defaultAppear)
     >> Seq.sortBy (fun x -> x.startDate)
     >> match startAppearIdent with
-        | Some ident -> Seq.skipWhile(fun x -> x.ident <> ident)
+        | Some ident -> Seq.skipWhile (fun x -> x.ident <> ident)
         | None -> id
     >> Seq.toList 
     
@@ -74,7 +71,7 @@ let private proceed parameters (db:Database) =
           -> loopHandler appear leftOverAppears
             
     (parameters.startAppear, parameters.date, db.appears) 
-    |||> getAppears 
+    |||> getAppears  
     |> loop []
 
 let collapse parameters =

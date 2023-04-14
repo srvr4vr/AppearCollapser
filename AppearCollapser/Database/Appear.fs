@@ -11,7 +11,6 @@ type Appear = {
 }
 
 module Appear = 
-
     [<Literal>]
     let appearDirectoryName = "appear"
 
