@@ -1,10 +1,19 @@
 namespace AppearCollapser.Database
 
 open System.IO
+open System.Text.RegularExpressions
 open FSharp.Json
 
 module JsonHelper =
+    let private appearIdentRegex = Regex (@"(""appearIdent"": "")(\w+)("")", RegexOptions.Compiled)
+    
     let private jsonConfig = JsonConfig.create(deserializeOption = DeserializeOption.RequireNull)
+    
+    let replace (regex:Regex) (replacePattern:string) data =
+        regex.Replace(data, replacePattern)
+    
+    let replaceAppear (appearIdent:string) =
+        replace appearIdentRegex $@"$1{appearIdent}$3"
 
     let loadJson<'a> =
         File.ReadAllText >> Json.deserialize<'a>
