@@ -4,7 +4,7 @@ open System.IO
 open System.Text.RegularExpressions
 
 module Balance =
-    
+    [<Literal>]
     let private eventBalancerDirectory = "event_balances"
     
     let private createPattern appear =
