@@ -5,15 +5,26 @@ open System.Text.RegularExpressions
 open FSharp.Json
 
 module JsonHelper =
+    let private addExt x = $"{x}.json"
+    
+    let private allMask = addExt "*"
+    
     let private appearIdentRegex = Regex (@"(""appearIdent"": "")(\w+)("")", RegexOptions.Compiled)
     
     let private jsonConfig = JsonConfig.create(deserializeOption = DeserializeOption.RequireNull)
+
+    let private getFilepath directory =
+        Path.combine directory >> addExt
     
     let replace (regex:Regex) (replacePattern:string) data =
         regex.Replace(data, replacePattern)
     
-    let replaceAppear (appearIdent:string) =
-        replace appearIdentRegex $@"$1{appearIdent}$3"
+    let getReplacePattern (x:string) =
+        $@"$1{x}$3"
+        
+    let replaceAppear =
+       getReplacePattern
+       >> replace appearIdentRegex
 
     let loadJson<'a> =
         File.ReadAllText >> Json.deserialize<'a>
@@ -22,12 +33,12 @@ module JsonHelper =
         File.ReadAllText >> Json.deserializeEx<'a> jsonConfig
         
     let getFiles directory =
-        Directory.EnumerateFiles(directory, "*.json")
+        Directory.EnumerateFiles(directory, allMask)
         
-    let removeFromDisc directory id =
-        Path.Combine(directory, $"{id}.json")
-        |> File.Delete
-
+    let removeFromDisc directory =
+        getFilepath directory  
+        >> File.Delete
+        
     let writeToDisk directory id data =
-        (Path.Combine(directory, $"{id}.json"), data)
+        (getFilepath directory id, data)
         |> File.WriteAllText

@@ -2,7 +2,6 @@ namespace AppearCollapser.Database
 
 open System
 open System.Collections.Generic
-open System.IO
 open FSharp.Collections.ParallelSeq
 
 type Appear = {
@@ -12,13 +11,13 @@ type Appear = {
 
 module Appear = 
     [<Literal>]
-    let appearDirectoryName = "appear"
+    let directoryName = "appear"
 
     [<Literal>]
-    let defaultAppear = "default"
+    let defaultName = "default"
 
-    let private getAppearDirectory d =
-        Path.Combine(d, appearDirectoryName)
+    let private getAppearDirectory root =
+        Path.combine root directoryName
 
     let load =
         getAppearDirectory

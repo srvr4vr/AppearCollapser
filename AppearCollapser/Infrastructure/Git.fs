@@ -8,10 +8,6 @@ let private execute command =
     command
     |> Async.RunSynchronously
     |> ignore
-
-let private unwrap task =
-    let (Task id) = task
-    id
     
 let add directory =
     executeShellCommand directory "git add --all"
@@ -23,6 +19,6 @@ let commit directory taskId=
     |> executeShellCommand directory
     |> execute
 
-let addAndCommit directory (task: Task)=
+let addAndCommit directory (Task id) =
     add directory
-    unwrap task |> commit directory
+    id |> commit directory

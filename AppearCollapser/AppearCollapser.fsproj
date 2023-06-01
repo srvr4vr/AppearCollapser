@@ -8,9 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Infrastructure\Functions.fs" />
         <Compile Include="Infrastructure\Command.fs" />
         <Compile Include="Infrastructure\Git.fs" />
         <Compile Include="Infrastructure\Arguments.fs" />
+        <Compile Include="Infrastructure\Path.fs" />
         <Compile Include="Database\JsonHelper.fs" />
         <Compile Include="Database\Appear.fs" />
         <Compile Include="Database\Table.fs" />
@@ -18,6 +20,7 @@
         <Compile Include="Database\Balance.fs" />
         <Compile Include="Database\Database.fs" />
         <Compile Include="Parameters.fs" />
+        <Compile Include="AppearHandler.fs" />
         <Compile Include="Collapser.fs" />
         <Compile Include="Printer.fs" />
         <Compile Include="Program.fs" />
@@ -28,6 +31,8 @@
       <PackageReference Include="Fli" Version="1.0.0" />
       <PackageReference Include="FSharp.Collections.ParallelSeq" Version="1.2.0" />
       <PackageReference Include="FSharp.Json" Version="0.4.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     </ItemGroup>
 
 </Project>

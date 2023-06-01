@@ -3,6 +3,7 @@ namespace AppearCollapser.Database
 open System.Collections.Generic
 open System.IO
 open FSharp.Collections.ParallelSeq
+open Functions
 open System
 open FSharp.Json
 
@@ -28,17 +29,20 @@ type tableScheme = {
 module Table =
     let private createRow (appears: IReadOnlyDictionary<string, Appear>) path =
         let getId (str:string) =
-            let span = str.AsSpan()
-            if str.Contains('#') then
-                span.Slice(0, span.LastIndexOf('#')).ToString()
-            else
-                span.Slice(0, span.LastIndexOf('.')).ToString()
+            let getIdInternal (char:Char) =
+                let span = str.AsSpan()
+                span.Slice(0, span.LastIndexOf(char)).ToString()
+                
+            let getDelimiter =
+                str.Contains('#') ?= ('#', '.')
+
+            getDelimiter |> getIdInternal
        
         let data = File.ReadAllText(path)
         
         let appear = Json.deserialize data
             
-        { id = Path.GetFileName(path) |> getId; appear = appears[appear.appearIdent]; data = data; }
+        { id = Path.GetFileName path |> getId; appear = appears[appear.appearIdent]; data = data; }
 
     let private tablesWithAppears =
         let getColumns =
@@ -48,8 +52,9 @@ module Table =
             >> List.ofSeq
         JsonHelper.getFiles
         >> PSeq.map FileInfo
-        >> PSeq.filter (fun file -> file.Name <> Appear.appearDirectoryName)
-        >> PSeq.map (fun x -> (Path.GetFileNameWithoutExtension(x.FullName), getColumns x.FullName))
+        >> PSeq.filter (fun file -> file.Name <> Appear.directoryName)
+        >> PSeq.map (fun x -> x.FullName)
+        >> PSeq.map (mapTo (Path.GetFileNameWithoutExtension, getColumns))
         >> PSeq.filter (fun (_, columns) -> columns |> List.exists ((=) "appearIdent"))
         >> PSeq.map fst
         
@@ -60,7 +65,7 @@ module Table =
 
     let loadTables appears directory = 
         tablesWithAppears directory
-        |> PSeq.map (fun tableName -> (tableName, Path.Combine(directory, tableName)))
+        |> PSeq.map (mapTo (id, Path.combine directory))
         |> PSeq.filter (snd >> Directory.Exists)
         |> PSeq.map (fun (name, path) -> (name, loadTable appears path))
         |> dict
@@ -72,9 +77,9 @@ module Table =
         | _ -> $"{row.id}#{row.appear.ident}"
         
     let removeRow directory table row =
-        (Path.Combine(directory, table), getTableFileName table row)
+        (Path.combine directory table, getTableFileName table row)
         ||> JsonHelper.removeFromDisc
         
     let addRow directory table row =
-        (Path.Combine(directory, table), getTableFileName table row, row.data)
+        (Path.combine directory table, getTableFileName table row, row.data)
         |||> JsonHelper.writeToDisk

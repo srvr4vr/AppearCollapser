@@ -1,12 +1,12 @@
 module AppearCollapser.Printer
 
-open System
 open AppearCollapser.Database
+open Microsoft.Extensions.Logging
 
-let print (completedAppear: string list, nextAppear: Appear option) =
-    printf $"Done: {String.Join(' ', completedAppear)}."
+let print (logger:ILogger) (completedAppear: string list, nextAppear: Appear option) =
+    logger.LogInformation("Job done: {CompletedAppear}", completedAppear)
     
     match nextAppear with
-    | Some x ->  printf $"Next appear {x.ident}"
+    | Some x ->  logger.LogInformation("Next appear {Appear}", x.ident)
     | None -> ()
     

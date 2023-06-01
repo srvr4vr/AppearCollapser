@@ -1,24 +1,38 @@
 namespace AppearCollapser.Database
 
 open System.IO
+open AppearCollapser.Infrastructure
+open Functions
 open System.Text.RegularExpressions
 
+[<RequireQualifiedAccess>]
 module Balance =
     [<Literal>]
     let private eventBalancerDirectory = "event_balances"
     
-    let private createPattern appear =
-        $"(\"appear\":\\s+\")({appear.ident})(\")"
-        
+    let private createRegex appear =
+        $"(\"appear\":\\s+\")({appear.ident})(\")" |> Regex
+    
     let private replacePattern =
-        $"$1{Appear.defaultAppear}$3"
+        JsonHelper.getReplacePattern Appear.defaultName
+        
+    let private getEventBalancerPath root =
+        Path.combine root eventBalancerDirectory
 
-    let fix directory appear =
-        let replacer =
-            (createPattern appear |> Regex, replacePattern)
-            ||> JsonHelper.replace
-            
-        Path.Combine(directory, eventBalancerDirectory)
-        |> JsonHelper.getFiles
-        |> Seq.map (fun x -> (x, File.ReadAllText(x) |> replacer))
-        |> Seq.iter File.WriteAllText
+    let private replace (regex:Regex) =
+        JsonHelper.replace regex replacePattern
+        
+    let private pathAndData =
+        mapTo (id, File.ReadAllText)
+    
+    let private fixAppear =
+        createRegex
+        >> replace
+        >> mapSnd
+
+    let fix appear =
+        getEventBalancerPath
+        >> JsonHelper.getFiles
+        >> Seq.map pathAndData
+        >> Seq.map (fixAppear appear)
+        >> Seq.iter File.WriteAllText
