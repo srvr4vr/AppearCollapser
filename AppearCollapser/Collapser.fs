@@ -6,7 +6,8 @@ open Microsoft.Extensions.Logging
 open Microsoft.FSharp.Collections
 open Microsoft.FSharp.Core
 open AppearCollapser.Parameters
-open Functions
+open SafeBuilder
+open AppearCollapser.Infrastructure
     
 let private getAppears startAppearIdent date =
     Seq.filter (fun x -> x.startDate < date)
@@ -49,6 +50,15 @@ let private proceed (logger:ILogger) db parameters =
     |> loop []
 
 let private createDb (logger:ILogger) parameters =
-    Database (logger, parameters.directory)
+    try 
+        Database (logger, parameters.directory) |> Ok
+    with | e -> Error (LibraryNotFound parameters.directory) 
 
-let run (logger:ILogger) = createDb logger =>> proceed logger
+let run (logger:ILogger) parameters =
+    safe {
+        try
+            let! db = createDb logger parameters
+            return proceed logger db parameters
+        with ex ->
+            return! Error(UnhandledException ex) 
+    }

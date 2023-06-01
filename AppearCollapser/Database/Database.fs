@@ -1,18 +1,15 @@
 namespace AppearCollapser.Database
 
-open System
 open System.Collections.Generic
 open Microsoft.Extensions.Logging
 open Functions
 
 type Database (logger:ILogger, directory:string) =
-    [<Literal>]
-    let dateFormat = "HH:mm:ss"
     
-    do logger.LogInformation("db start load {Date}", DateTime.Now.ToString dateFormat)
+    do logger.LogInformation("db start load")
     let _appears, _tables = Loader.load directory
     
-    do logger.LogInformation("db end load {Date}", DateTime.Now.ToString dateFormat)
+    do logger.LogInformation("db end load")
     
     member this.appears:IReadOnlyCollection<Appear> = _appears.Values
     

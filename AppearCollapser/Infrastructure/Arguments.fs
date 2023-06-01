@@ -1,4 +1,4 @@
-module AppearCollapser.Infrastructure
+namespace AppearCollapser.Infrastructure
 
 open Argu
 

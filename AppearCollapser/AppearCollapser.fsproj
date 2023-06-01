@@ -13,6 +13,8 @@
         <Compile Include="Infrastructure\Git.fs" />
         <Compile Include="Infrastructure\Arguments.fs" />
         <Compile Include="Infrastructure\Path.fs" />
+        <Compile Include="Infrastructure\SafeBuilder.fs" />
+        <Compile Include="Infrastructure\Exceptions.fs" />
         <Compile Include="Database\JsonHelper.fs" />
         <Compile Include="Database\Appear.fs" />
         <Compile Include="Database\Table.fs" />

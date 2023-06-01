@@ -1,7 +1,6 @@
 namespace AppearCollapser.Database
 
 open System.IO
-open AppearCollapser.Infrastructure
 open Functions
 open System.Text.RegularExpressions
 
