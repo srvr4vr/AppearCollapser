@@ -23,7 +23,7 @@ module Appear =
         getAppearDirectory
         >> JsonHelper.getFiles
         >> PSeq.map JsonHelper.loadJson
-        >> PSeq.map (fun x -> (x.ident, x))
+        >> PSeq.map (fun x -> (x.ident.ToLower(), x))
         >> dict
         >> Dictionary
         

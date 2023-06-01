@@ -42,7 +42,7 @@ module Table =
         
         let appear = Json.deserialize data
             
-        { id = Path.GetFileName path |> getId; appear = appears[appear.appearIdent]; data = data; }
+        { id = Path.GetFileName path |> getId; appear = appears[appear.appearIdent.ToLower()]; data = data; }
 
     let private tablesWithAppears =
         let getColumns =
